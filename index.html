@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>L'Orienteur Créatif</title>
+<style>
+:root {
+  --bg: #1a1a1a;
+  --text: #ecebe6;
+  --muted: #8f8e89;
+  --faint: #5f5e5a;
+  --line: rgba(236, 235, 230, .16);
+  --line-strong: rgba(236, 235, 230, .45);
+  --hover: rgba(236, 235, 230, .045);
+  --vert: #8fbf98;
+  --rouge: #d08a80;
+  --alerte: #e5534b;
+  --font: "Segoe UI Variable Display", "Segoe UI Variable Text", "Segoe UI", "Helvetica Neue", Inter, system-ui, -apple-system, Roboto, Arial, sans-serif;
+  --ease: cubic-bezier(.2, .7, .2, 1);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body {
+  background: var(--bg); color: var(--text); font-family: var(--font);
+  font-weight: 400; line-height: 1.5; -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+button:focus-visible { outline: 1px solid var(--text); outline-offset: 4px; }
+
+/* ---------- Écrans ---------- */
+.screen {
+  min-height: 100vh; display: flex; flex-direction: column;
+  padding: clamp(24px, 5vw, 64px);
+}
+.screen[hidden] { display: none; }
+.fade-out { animation: out .26s var(--ease) forwards; }
+.fade-in  { animation: in  .38s var(--ease) both; }
+@keyframes out { to { opacity: 0; transform: translateY(-10px); } }
+@keyframes in  { from { opacity: 0; transform: translateY(14px); } }
+
+.overline {
+  font-size: 12px; letter-spacing: .32em; text-transform: uppercase; color: var(--muted);
+}
+.rule { width: 48px; height: 1px; background: var(--line-strong); }
+
+.btn {
+  display: inline-flex; align-items: center; gap: 14px;
+  padding: 15px 34px; border: 1px solid var(--line-strong);
+  font-size: 15px; letter-spacing: .14em; text-transform: uppercase;
+  transition: background .25s var(--ease), color .25s var(--ease), border-color .25s;
+}
+.btn:hover { background: var(--text); color: var(--bg); border-color: var(--text); }
+.btn .arrow { transition: transform .25s var(--ease); }
+.btn:hover .arrow { transform: translateX(4px); }
+
+/* ---------- Accueil ---------- */
+#accueil { justify-content: center; align-items: center; text-align: center; gap: 44px; }
+#accueil h1 {
+  font-weight: 300; font-size: clamp(34px, 6.4vw, 84px); line-height: 1.08;
+  letter-spacing: -.015em; max-width: 15ch;
+}
+#accueil .top { display: flex; flex-direction: column; align-items: center; gap: 22px; }
+
+#accueil .why {
+  font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted);
+  padding-bottom: 4px; border-bottom: 1px solid var(--line); transition: color .2s, border-color .2s;
+}
+#accueil .why:hover { color: var(--text); border-color: var(--line-strong); }
+#accueil .links { display: flex; flex-direction: column; align-items: center; gap: 22px; margin-top: -8px; }
+#accueil .profils-link { display: flex; flex-direction: column; align-items: center; gap: 9px; }
+.warn-note { color: var(--alerte); font-size: 13px; letter-spacing: .04em; line-height: 1.5; max-width: 46ch; }
+.warn-note strong { font-weight: 600; }
+
+/* ---------- Les 6 profils ---------- */
+#profils { max-width: 1180px; width: 100%; margin: 0 auto; }
+#profils .p-head { display: flex; justify-content: space-between; align-items: center; }
+#profils .intro { padding: clamp(28px, 6vh, 64px) 0 clamp(24px, 4vh, 40px); display: flex; flex-direction: column; gap: 18px; }
+#profils .intro h2 { font-weight: 300; font-size: clamp(30px, 4.6vw, 54px); line-height: 1.1; letter-spacing: -.015em; }
+#profils .warn-note {
+  font-size: 15px; max-width: 70ch; border-left: 1px solid var(--alerte); padding: 4px 0 4px 16px;
+}
+#profils .card + .card { border-top: 1px solid var(--line); }
+#profils .p-foot { padding-top: clamp(32px, 6vh, 64px); display: flex; gap: 16px; flex-wrap: wrap; }
+
+/* ---------- Pourquoi ce questionnaire ---------- */
+#pourquoi { max-width: 760px; width: 100%; margin: 0 auto; }
+#pourquoi .p-head { display: flex; justify-content: space-between; align-items: center; }
+#pourquoi article { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: clamp(36px, 8vh, 96px) 0 clamp(28px, 5vh, 48px); }
+#pourquoi h2 { font-weight: 300; font-size: clamp(30px, 4.6vw, 54px); line-height: 1.1; letter-spacing: -.015em; margin: 22px 0 clamp(28px, 5vh, 44px); }
+#pourquoi p { font-size: clamp(16px, 1.5vw, 18px); line-height: 1.75; color: #d6d5d0; margin-bottom: 1.3em; }
+#pourquoi p.pivot {
+  font-weight: 300; font-size: clamp(21px, 2.3vw, 28px); line-height: 1.35; color: var(--text);
+  border-left: 1px solid var(--line-strong); padding-left: 22px; margin: 1.6em 0;
+}
+#pourquoi p:last-of-type { color: var(--text); }
+#pourquoi .p-foot { border-top: 1px solid var(--line); padding-top: 32px; margin-top: 12px; }
+
+/* ---------- Questions ---------- */
+#questions { max-width: 920px; width: 100%; margin: 0 auto; }
+.q-head { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+.back { font-size: 13px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); transition: color .2s; }
+.back:hover { color: var(--text); }
+.back[disabled] { visibility: hidden; }
+.progress { height: 1px; background: var(--line); margin: 18px 0 0; }
+.progress span { display: block; height: 100%; background: var(--text); width: 0; transition: width .45s var(--ease); }
+
+.q-body { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: clamp(32px, 7vh, 80px) 0 24px; }
+.q-num { font-size: 13px; color: var(--muted); letter-spacing: .2em; margin-bottom: 18px; }
+.q-text { font-weight: 300; font-size: clamp(24px, 3.4vw, 40px); line-height: 1.22; letter-spacing: -.01em; margin-bottom: clamp(28px, 5vh, 52px); }
+
+.choices { list-style: none; border-top: 1px solid var(--line); }
+.choice {
+  width: 100%; text-align: left; display: grid; grid-template-columns: 44px 1fr; align-items: baseline;
+  padding: 19px 8px; border-bottom: 1px solid var(--line);
+  font-size: clamp(16px, 1.6vw, 19px); color: #d6d5d0;
+  transition: background .2s var(--ease), color .2s, padding-left .25s var(--ease);
+}
+.choice .idx { font-size: 12px; color: var(--faint); letter-spacing: .1em; font-variant-numeric: tabular-nums; transition: color .2s; }
+.choice:hover { background: var(--hover); color: var(--text); padding-left: 16px; }
+.choice:hover .idx { color: var(--muted); }
+.choice.picked { background: var(--text); color: var(--bg); padding-left: 16px; }
+.choice.picked .idx { color: var(--bg); }
+.hint { font-size: 12px; color: var(--faint); letter-spacing: .08em; margin-top: 18px; }
+@media (pointer: coarse) { .hint { display: none; } }
+
+/* ---------- Résultat ---------- */
+#resultat { max-width: 1180px; width: 100%; margin: 0 auto; gap: 0; }
+.r-head { padding: clamp(16px, 5vh, 56px) 0 clamp(28px, 5vh, 48px); display: flex; flex-direction: column; gap: 18px; }
+.r-head .lead { color: var(--muted); font-size: 16px; max-width: 60ch; }
+.cards { display: grid; gap: 0; border-top: 1px solid var(--line); }
+.cards.multi { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); border-left: 1px solid var(--line); }
+.card { padding: clamp(24px, 4vw, 44px) 0; }
+.cards.multi .card { padding: clamp(22px, 3vw, 34px); border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.card .label { font-size: 12px; letter-spacing: .28em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+.card h2 { font-weight: 300; font-size: clamp(34px, 5vw, 64px); line-height: 1.05; letter-spacing: -.015em; margin-bottom: clamp(26px, 4vh, 42px); }
+.cards.multi .card h2 { font-size: clamp(26px, 2.6vw, 34px); }
+.single .lights { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(24px, 4vw, 64px); }
+@media (max-width: 760px) { .single .lights { grid-template-columns: 1fr; } }
+.light { border-top: 1px solid var(--line); padding-top: 18px; }
+.cards.multi .light + .light { margin-top: 26px; }
+.light h3 {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 12px; font-weight: 500; letter-spacing: .2em; text-transform: uppercase; margin-bottom: 12px;
+}
+.light h3::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--c); box-shadow: 0 0 0 3px color-mix(in srgb, var(--c) 18%, transparent); }
+.light.vert { --c: var(--vert); } .light.vert h3 { color: var(--vert); }
+.light.rouge { --c: var(--rouge); } .light.rouge h3 { color: var(--rouge); }
+.light ul { list-style: none; }
+.light li {
+  position: relative; padding: 9px 0 9px 22px; font-size: 16px; color: #d6d5d0; line-height: 1.55;
+  border-bottom: 1px solid rgba(236, 235, 230, .07);
+}
+.light li:last-child { border-bottom: 0; }
+.light li::before { content: ''; position: absolute; left: 2px; top: 1.15em; width: 10px; height: 1px; background: var(--c); opacity: .8; }
+.resume {
+  font-size: clamp(17px, 1.55vw, 20px); line-height: 1.7; color: #dddcd7; font-weight: 300;
+  max-width: 68ch; margin: 0 0 clamp(30px, 5vh, 48px);
+}
+.resume-label { font-size: 12px; letter-spacing: .24em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.cards.multi .resume { font-size: 16px; line-height: 1.65; margin-bottom: 28px; }
+.r-foot { padding-top: clamp(32px, 6vh, 64px); display: flex; justify-content: flex-start; }
+
+@media (prefers-reduced-motion: reduce) { *, *::before { animation: none !important; transition: none !important; } }
+</style>
+</head>
+<body>
+
+<!-- Accueil -->
+<section class="screen" id="accueil">
+  <div class="top">
+    <span class="overline">L'Orienteur Créatif</span>
+    <span class="rule"></span>
+  </div>
+  <h1 id="titre">6 questions pour connaitre votre profil de travail</h1>
+  <button class="btn" id="start">Commencer <span class="arrow">→</span></button>
+  <div class="links">
+    <button class="why" id="why">Pourquoi ce questionnaire ?</button>
+    <div class="profils-link">
+      <button class="why" id="see-profils">Les <span class="nb-profils">6</span> profils</button>
+      <p class="warn-note">Faites le test avant de lire cette partie : connaître les profils à l'avance fausserait vos réponses.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Les 6 profils -->
+<section class="screen" id="profils" hidden>
+  <div class="p-head">
+    <span class="overline">L'Orienteur Créatif</span>
+    <button class="back" id="profils-back">← Accueil</button>
+  </div>
+  <div class="intro">
+    <span class="rule"></span>
+    <h2>Les <span class="nb-profils">6</span> profils</h2>
+    <p class="warn-note"><strong>Important :</strong> faites le test avant de lire cette page. Connaître les profils à l'avance fausserait vos réponses.</p>
+  </div>
+  <div class="cards single" id="all-cards"></div>
+  <div class="p-foot"><button class="btn" id="profils-start">Faire le test <span class="arrow">→</span></button></div>
+</section>
+
+<!-- Pourquoi ce questionnaire -->
+<section class="screen" id="pourquoi" hidden>
+  <div class="p-head">
+    <span class="overline">L'Orienteur Créatif</span>
+    <button class="back" id="why-back">← Accueil</button>
+  </div>
+  <article>
+    <span class="rule"></span>
+    <h2>Pourquoi ce questionnaire ?</h2>
+    <p>Le système traditionnel nous a souvent appris l'inverse de ce qu'il faudrait : il nous force à entrer dans des cases rigides. On nous demande de changer qui nous sommes pour correspondre à un moule, à une méthode ou à un métier. Quand on n'y arrive pas, le mal-être s'installe, et on finit par remettre toute sa vie en question.</p>
+    <p class="pivot">Ce questionnaire propose l'approche inverse.</p>
+    <p>Il n'est pas là pour vous juger, vous noter ou vous enfermer. Il agit comme un miroir pour révéler votre fonctionnement naturel : votre relation unique à la patience (si vous avez besoin de voir un résultat immédiat ou si vous aimez bâtir dans la durée), votre flux d'idées (qu'elles fusent de manière imprévisible ou qu'elles demandent à être structurées), ainsi que votre besoin viscéral de visuel, d'utilité pure ou de logique.</p>
+    <p>Le but n'est pas de vous enfermer, mais de vous montrer sur quels types de projets vous allez naturellement vous épanouir, sans plus jamais avoir à vous excuser d'être vous-même.</p>
+    <div class="p-foot"><button class="btn" id="why-start">Commencer le questionnaire <span class="arrow">→</span></button></div>
+  </article>
+</section>
+
+<!-- Questions -->
+<section class="screen" id="questions" hidden>
+  <div>
+    <div class="q-head">
+      <span class="overline" id="q-count"></span>
+      <button class="back" id="back">← Précédent</button>
+    </div>
+    <div class="progress"><span id="bar"></span></div>
+  </div>
+  <div class="q-body" id="q-body">
+    <div class="q-num" id="q-num"></div>
+    <p class="q-text" id="q-text"></p>
+    <ul class="choices" id="choices"></ul>
+    <p class="hint">Touches 1 à <span id="hint-max"></span> pour répondre au clavier</p>
+  </div>
+</section>
+
+<!-- Résultat -->
+<section class="screen" id="resultat" hidden>
+  <div class="r-head">
+    <span class="overline" id="r-over"></span>
+    <span class="rule"></span>
+    <p class="lead" id="r-lead"></p>
+  </div>
+  <div class="cards" id="cards"></div>
+  <div class="r-foot"><button class="btn" id="restart">Recommencer le test</button></div>
+</section>
+
+<script>
+/* Contenu extrait de « Questionnaire QCM.docx » et « Finalitee du questionnaire.docx ».
+   Le champ « profil » de chaque réponse sert uniquement au calcul : il n'est jamais affiché. */
+const DATA = {"profils": [{"nom": "Le Créateur Express", "resume": "Vous êtes un explorateur d'idées pur, stimulé par l'élan de la nouveauté et le frisson de la découverte. Pour vous, une idée a de la valeur si elle peut prendre vie immédiatement. Vous avez besoin de voir votre concept s'animer et fonctionner rapidement pour nourrir votre créativité. Vous fonctionnez au flash créatif et à la gratification instantanée. La planification lourde, les structures rigides ou l'obligation de maintenir un projet sur la durée éteignent votre motivation. Vous cherchez constamment le moyen le plus direct pour matérialiser vos visions sans filtre.", "vert": ["Des micro-applications ou utilitaires légers créés en une seule session.", "Des maquettes et prototypes visuels interactifs pour tester une idée flash.", "Des générateurs textuels thématiques (générateur de concepts, d’univers, d'idées).", "Des fictions interactives courtes ou des aventures textuelles à choix multiples.", "Des mini-outils personnels jetables que l'on crée pour un besoin d'une heure."], "rouge": ["Les jeux vidéo complexes impliquant de la physique, du gameplay lourd et des dizaines de niveaux.", "Les applications nécessitant une architecture de base de données lourde et sécurisée.", "Les projets de groupe étalés sur plusieurs mois avec des réunions de suivi régulières.", "Le développement de logiciels destinés à être commercialisés et mis à jour constamment."], "id": "createur"}, {"nom": "Le Designer d'Expériences", "resume": "Pour vous, la forme et le fond sont indissociables. Vous êtes profondément sensible à l'harmonie, à l'ergonomie et à l'émotion que procure un projet dès le premier regard. Votre satisfaction réside dans le soin apporté aux détails : la fluidité d'une transition, le choix d'un ton, la clarté d'une mise en page. Vous refusez qu'un outil soit simplement fonctionnel s'il est austère ou inconfortable. Vous cherchez à sculpter des solutions qui procurent un confort immédiat et une âme unique à tout ce que vous touchez, peu importe l'univers graphique ou le support.", "vert": ["La refonte esthétique et visuelle d'applications ou de sites web existants mais austères.", "Des vitrines interactives, des portfolios numériques animés et des galeries stylées.", "Des tableaux de bord esthétiques mettant en valeur des données de manière élégante.", "Des interfaces thématiques immersives (styles rétro-gaming, minimalisme épuré, futuriste).", "Des animations interactives complexes en CSS/JS qui réagissent aux mouvements de l'utilisateur."], "rouge": ["Les scripts en ligne de commande bruts qui s'exécutent uniquement dans un terminal noir.", "Les algorithmes mathématiques purs ou les moteurs de calcul sans aucune interface graphique.", "Les projets d'optimisation de serveurs ou de gestion de réseaux en arrière-plan.", "La création d'outils de traitement de bases de données invisibles pour l'utilisateur."], "id": "designer"}, {"nom": "Le Concepteur de Solutions", "resume": "Vous êtes un architecte de l'esprit, fasciné par la résolution de casse-têtes et la compréhension des mécanismes. Votre force réside dans votre capacité à prendre du recul, à analyser une situation confuse et à concevoir une stratégie globale imparable. Vous aimez structurer la logique, poser le cadre et définir précisément comment un système doit répondre à un besoin. En revanche, l'exécution technique minutieuse et la gestion des micro-détails répétitifs vous ennuient rapidement. Vous excellez pour poser des bases et des modèles logiques, en préférant déléguer la mise en œuvre pratique.", "vert": ["Des arbres de décision interactifs et des systèmes de diagnostic intelligents.", "Des outils d'audit, d'évaluation ou des questionnaires dynamiques complexes.", "La modélisation de processus logiques ou de parcours utilisateurs clairs.", "Des planificateurs conceptuels et des applications de cartographie d'idées.", "Des générateurs de cahiers des charges ou des structures de bases de données théoriques."], "rouge": ["Passer des heures à aligner des éléments graphiques au pixel près sur un écran.", "Traquer des bugs de syntaxe ou des erreurs de virgule dans des milliers de lignes de code.", "L'intégration technique de micro-détails répétitifs qui n'apportent rien à la logique globale.", "Les micro-projets purement visuels ou décoratifs sans aucune utilité logique derrière."], "id": "concepteur"}, {"nom": "Le Développeur Bâtisseur", "resume": "Vous possédez une rigueur et une patience à toute épreuve, indispensables pour ériger des œuvres durables. Pour vous, la beauté d'un projet réside dans la solidité de ses fondations et la propreté de sa structure interne. Vous aimez prendre le temps de faire les choses bien, d'imbriquer les systèmes méthodiquement et de voir un projet grandir étape par étape. Passer du temps sur un problème complexe ne vous fait pas peur, c'est un défi stimulant. Vous êtes le maître d'œuvre qui a besoin de contrôler chaque pièce de l'édifice pour s'assurer que l'ensemble tiendra dans le temps.", "vert": ["Des applications web ou logicielles complètes (SaaS) avec gestion de comptes utilisateurs.", "Des jeux vidéo structurés de A à Z avec des sauvegardes et des mécaniques imbriquées.", "Des plateformes collaboratives ou des systèmes de gestion de bases de données dynamiques.", "Des applications mobiles natives connectées à des services tiers (APIs).", "Des programmes lourds nécessitant une architecture modulaire et évolutive."], "rouge": ["Les micro-projets jetables codés à la va-vite en un seul fichier brouillon.", "Les outils éphémères sans aucune structure sous le capot, abandonnés après trois clics.", "Les projets où l'on change d'avis toutes les semaines sur la direction à prendre.", "Les gadgets basés uniquement sur l'effet de mode sans aucune ambition technique."], "id": "batisseur"}, {"nom": "L'Automatisateur", "resume": "Vous êtes le chasseur ultime de friction et d'inefficacité. Votre philosophie se résume à une règle d'or : si une tâche doit être faite deux fois de manière identique, un processus doit s'en charger à votre place. Votre plaisir réside dans le gain de temps et l'optimisation des flux. Vous aimez créer des solutions discrètes, autonomes et redoutablement efficaces qui travaillent dans l'ombre pour vous libérer l'esprit. Vous visez toujours l'identification des raccourcis logiques les plus performants, en éliminant le superflu pour aller droit au but.", "vert": ["Des scripts de tri, d'organisation automatique et de renommage massif de fichiers locaux.", "Des programmes de scraping web pour collecter et extraire des données ciblées en continu.", "Des outils de nettoyage, de conversion et de formatage automatique de textes ou de tableaux.", "Des macros et des passerelles techniques pour lier deux logiciels différents entre eux.", "Des bots de notification automatiques déclenchés par des événements précis (mails, alertes)."], "rouge": ["Les projets purement artistiques, contemplatifs ou de storytelling sans aucune utilité pratique.", "La création d'interfaces graphiques complexes demandant de longues heures de design visuel.", "Les applications interactives où l'utilisateur doit faire de nombreuses actions manuelles.", "Les projets éducatifs théoriques qui ne résolvent aucun problème concret du quotidien."], "id": "automatisateur"}, {"nom": "L'Explorateur de Concepts", "resume": "Vous êtes guidé par une curiosité intellectuelle insatiable. Pour vous, créer ou travailler est avant tout un moyen d'apprendre et de décortiquer la complexité du monde. Vous utilisez vos projets comme des laboratoires pour matérialiser des connaissances, tester des théories ou visualiser des concepts abstraits. Votre satisfaction n'est pas de vendre un produit ou de faire de l'esthétisme, mais d'avoir ce déclic mental où un sujet obscur devient soudainement limpide. Chaque défi est une marche de plus vers l'augmentation de votre propre savoir.", "vert": ["Des simulateurs interactifs pour visualiser des lois physiques, économiques ou mathématiques.", "Des cartes mentales dynamiques et des arbres de connaissances interconnectés.", "Des outils pédagogiques avancés (générateurs de fiches de révision intelligentes, quiz adaptatifs).", "Des chronologies historiques interactives avec exploration de données contextuelles.", "Des modélisations visuelles pour comprendre le fonctionnement de technologies ou d'algorithmes."], "rouge": ["Les applications purement commerciales ou publicitaires sans aucun fond pédagogique.", "Les gadgets humoristiques, satiriques ou inutiles qui n'apportent aucun savoir nouveau.", "Les outils d'automatisation de tâches administratives vides d'intérêt intellectuel.", "Les tâches d'intégration répétitives ne permettant pas d'apprendre une nouvelle compétence."], "id": "explorateur"}], "questions": [{"texte": "Une idée de projet te vient. Quelle est ta première réaction ?", "choix": [{"texte": "Je commence à planifier toute la structure et l'architecture.", "profil": "batisseur"}, {"texte": "Je regarde si ce projet peut me faire gagner du temps ou me simplifier la vie.", "profil": "automatisateur"}, {"texte": "Je cherche à créer un prototype ou créer ce projet rapidement.", "profil": "createur"}, {"texte": "Je me demande si c'est vraiment utile et quel besoin ça va combler.", "profil": "concepteur"}, {"texte": "Je me lance pour le plaisir de découvrir et de tester un nouveau sujet.", "profil": "explorateur"}, {"texte": "Je commence à dessiner et imaginer le look de l'interface.", "profil": "designer"}]}, {"texte": "Tu bloques sur un bug ou problème technique complexe. Que fais-tu ?", "choix": [{"texte": "Je cherche calmement l'origine et la cause logique du problème.", "profil": "concepteur"}, {"texte": "Ça me coupe dans mon élan, je laisse tomber pour passer à autre chose.", "profil": "createur"}, {"texte": "J'en profite pour fouiller de la documentation ou internet et apprendre comment ça fonctionne.", "profil": "explorateur"}, {"texte": "Je cherche à corriger l'erreur en priorité pour que l'outil reste fluide et agréable à utiliser.", "profil": "designer"}, {"texte": "Je trouve une astuce ou un moyen plus simple de contourner le problème pour continuer d'avancer.", "profil": "automatisateur"}, {"texte": "Je procède par étapes, méthodiquement, pour réparer le système de manière durable.", "profil": "batisseur"}]}, {"texte": "Tu viens de terminer un projet ou un outil. Qu'est-ce qui te donne le plus de satisfaction ?", "choix": [{"texte": "Le fait que l'interface soit fluide, soignée et agréable à regarder.", "profil": "designer"}, {"texte": "Le fait d'avoir créé un automatisme qui va travailler à ma place et me faire gagner du temps.", "profil": "automatisateur"}, {"texte": "Le fait d'avoir réussi à maîtriser un concept qui me paraissait totalement inconnu ou complexe au départ.", "profil": "explorateur"}, {"texte": "Le fait de voir mon idée s'animer et fonctionner instantanément sous mes yeux.", "profil": "createur"}, {"texte": "Le fait d'avoir construit un système solide, carré et qui ne risque pas de planter.", "profil": "batisseur"}, {"texte": "Le fait de savoir exactement pourquoi chaque élément est à sa place et à quoi il sert.", "profil": "concepteur"}]}, {"texte": "Travailler pendant trois mois sur un seul et même projet :", "choix": [{"texte": "C'est une excellente occasion d'explorer un sujet en profondeur et d'en maîtriser tous les aspects.", "profil": "explorateur"}, {"texte": "C'est le temps nécessaire pour poser le cadre, analyser la situation et organiser toute la stratégie.", "profil": "concepteur"}, {"texte": "Je perds rapidement mon élan, j'ai besoin de renouveau régulier pour rester stimulé.", "profil": "createur"}, {"texte": "C'est un rythme gratifiant pour assembler toutes les pièces, fabriquer la solution et aller au bout des choses.", "profil": "batisseur"}, {"texte": "C'est le bon timing pour veiller au confort d'utilisation et s'assurer que l'expérience globale est impeccable.", "profil": "designer"}, {"texte": "Je cherche à automatiser les étapes pour arriver plus efficacement a mon objectif.", "profil": "automatisateur"}]}, {"texte": "Pour toi, un outil ou un projet est une vraie réussite si :", "choix": [{"texte": "Il permet de donner vie à mon idée sur le moment, sans attendre.", "profil": "createur"}, {"texte": "Il est complet, stable et conçu pour fonctionner sur le long terme.", "profil": "batisseur"}, {"texte": "Il fait le travail fastidieux à ma place de manière automatique.", "profil": "automatisateur"}, {"texte": "Il m'a permis de comprendre un nouveau domaine et d'apprendre des choses concrètes.", "profil": "explorateur"}, {"texte": "Il s'adapte parfaitement et logiquement au besoin demandé.", "profil": "concepteur"}, {"texte": "Il offre une prise en main intuitive et un confort visuel immédiat.", "profil": "designer"}]}, {"texte": "On te propose de participer à un projet ou un événement à plusieurs. Quel rôle prends-tu naturellement ?", "choix": [{"texte": "Je me charge de fabriquer concrètement les éléments et de suivre le projet jusqu'au bout.", "profil": "batisseur"}, {"texte": "Je me lance à fond sur une action précise dès le début, sans trop m'occuper du reste.", "profil": "createur"}, {"texte": "Je m'occupe de concevoir le plan, de définir qui fait quoi et de structurer l'organisation.", "profil": "concepteur"}, {"texte": "Je veille à ce que l'ensemble soit harmonieux, soigné et agréable pour tout le monde.", "profil": "designer"}, {"texte": "Je me propose pour creuser le sujet, chercher les informations complexes et documenter le projet.", "profil": "explorateur"}, {"texte": "Je cherche à simplifier les processus pour que l'équipe avance sans perdre de temps.", "profil": "automatisateur"}]}]};
+
+(() => {
+  'use strict';
+  const $ = id => document.getElementById(id);
+  const screens = { accueil: $('accueil'), pourquoi: $('pourquoi'), profils: $('profils'), questions: $('questions'), resultat: $('resultat') };
+  const total = DATA.questions.length;
+  $('titre').textContent = `${total} questions pour connaitre votre profil de travail`;   // suit le nombre réel de questions
+  let answers = [];          // index du choix retenu pour chaque question
+  let current = 0;
+  let busy = false;          // empêche les doubles clics pendant une transition
+
+  function show(name) {
+    for (const [k, el] of Object.entries(screens)) {
+      el.hidden = k !== name;
+      el.classList.remove('fade-in', 'fade-out');
+    }
+    const el = screens[name];
+    void el.offsetWidth; el.classList.add('fade-in');
+    window.scrollTo(0, 0);
+  }
+
+  function transition(el, then) {
+    el.classList.remove('fade-in'); el.classList.add('fade-out');
+    setTimeout(then, matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 260);
+  }
+
+  // ---------- Questions ----------
+  function renderQuestion() {
+    const q = DATA.questions[current];
+    $('q-count').textContent = `Question ${current + 1} / ${total}`;
+    $('q-num').textContent = String(current + 1).padStart(2, '0');
+    $('q-text').textContent = q.texte;
+    $('bar').style.width = (current / total * 100) + '%';
+    $('back').disabled = current === 0;
+    $('hint-max').textContent = q.choix.length;
+    const list = $('choices');
+    list.replaceChildren(...q.choix.map((c, i) => {
+      const li = document.createElement('li');
+      const b = document.createElement('button');
+      b.className = 'choice';
+      const idx = document.createElement('span'); idx.className = 'idx'; idx.textContent = String(i + 1).padStart(2, '0');
+      const t = document.createElement('span'); t.textContent = c.texte;     // texte seul, sans le profil
+      b.append(idx, t);
+      b.addEventListener('click', () => pick(i, b));
+      li.append(b);
+      return li;
+    }));
+    const body = $('q-body');
+    body.classList.remove('fade-out', 'fade-in'); void body.offsetWidth; body.classList.add('fade-in');
+  }
+
+  function pick(i, btn) {
+    if (busy) return;
+    busy = true;
+    answers[current] = i;
+    btn.classList.add('picked');
+    $('bar').style.width = ((current + 1) / total * 100) + '%';
+    setTimeout(() => transition($('q-body'), () => {
+      current++;
+      busy = false;
+      if (current < total) renderQuestion(); else showResult();
+    }), 140);
+  }
+
+  // ---------- Calcul & résultat ----------
+  function buildCard(p, label) {
+    const card = document.createElement('article');
+    card.className = 'card';
+    card.innerHTML = `
+      <div class="label"></div>
+      <h2></h2>
+      <div class="resume-label">Résumé de la personnalité</div>
+      <p class="resume"></p>
+      <div class="lights">
+        <div class="light vert"><h3>Projets Feux Verts — exemples concrets</h3><ul></ul></div>
+        <div class="light rouge"><h3>Projets Feux Rouges — à fuir absolument</h3><ul></ul></div>
+      </div>`;
+    card.querySelector('.label').textContent = label;
+    card.querySelector('h2').textContent = p.nom;
+    card.querySelector('.resume').textContent = p.resume;
+    const fill = (sel, items) => card.querySelector(sel).replaceChildren(...items.map(t => {
+      const li = document.createElement('li'); li.textContent = t; return li;
+    }));
+    fill('.vert ul', p.vert);
+    fill('.rouge ul', p.rouge);
+    return card;
+  }
+
+  function showResult() {
+    const scores = Object.fromEntries(DATA.profils.map(p => [p.id, 0]));
+    answers.forEach((a, qi) => { scores[DATA.questions[qi].choix[a].profil]++; });
+    const max = Math.max(...Object.values(scores));
+    const winners = DATA.profils.filter(p => scores[p.id] === max);
+
+    const tie = winners.length > 1;
+    $('r-over').textContent = tie ? 'Résultat — égalité parfaite' : 'Votre profil de travail';
+    $('r-lead').textContent = tie
+      ? `Vos réponses se répartissent à parts égales entre ${winners.length} profils. Ils sont présentés côte à côte.`
+      : '';
+    $('r-lead').hidden = !tie;
+
+    const cards = $('cards');
+    cards.className = 'cards ' + (tie ? 'multi' : 'single');
+    cards.replaceChildren(...winners.map(p => buildCard(p, tie ? 'Profil ex æquo' : 'Profil')));
+    show('resultat');
+  }
+
+  // ---------- Navigation ----------
+  const begin = from => transition(from, () => {
+    answers = []; current = 0; busy = false;
+    show('questions'); renderQuestion();
+  });
+  $('start').addEventListener('click', () => begin(screens.accueil));
+  $('why-start').addEventListener('click', () => begin(screens.pourquoi));
+  $('why').addEventListener('click', () => transition(screens.accueil, () => show('pourquoi')));
+  document.querySelectorAll('.nb-profils').forEach(el => { el.textContent = DATA.profils.length; });
+  $('all-cards').replaceChildren(...DATA.profils.map((p, i) => buildCard(p, `Profil ${i + 1} / ${DATA.profils.length}`)));
+  $('see-profils').addEventListener('click', () => transition(screens.accueil, () => show('profils')));
+  $('profils-back').addEventListener('click', () => transition(screens.profils, () => show('accueil')));
+  $('profils-start').addEventListener('click', () => begin(screens.profils));
+  $('why-back').addEventListener('click', () => transition(screens.pourquoi, () => show('accueil')));
+  $('back').addEventListener('click', () => {
+    if (busy || current === 0) return;
+    busy = true;
+    transition($('q-body'), () => { current--; busy = false; renderQuestion(); });
+  });
+  $('restart').addEventListener('click', () => transition(screens.resultat, () => show('accueil')));
+
+  document.addEventListener('keydown', e => {
+    if (!screens.questions.hidden) {
+      const n = parseInt(e.key, 10);
+      const btns = $('choices').querySelectorAll('.choice');
+      if (n >= 1 && n <= btns.length) btns[n - 1].click();
+      if (e.key === 'Backspace') $('back').click();
+    } else if (!screens.accueil.hidden && e.key === 'Enter' && document.activeElement === document.body) {
+      $('start').click();
+    }
+  });
+
+  // Mode test : #test=1,3,2,... affiche directement le résultat de ces réponses (numéros 1 à 6)
+  const m = location.hash.match(/^#test=([\d,]+)$/);
+  if (m) {
+    answers = m[1].split(',').map(n => parseInt(n, 10) - 1).slice(0, total);
+    if (answers.length === total) { current = total; showResult(); return; }
+  }
+  show('accueil');
+})();
+</script>
+</body>
+</html>
